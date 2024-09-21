@@ -24,4 +24,5 @@ hs_err_pid*
 replay_pid*
 /.idea/
 /chat-bot-interfaces/target/
-
+/chat-bot-domain/target/
+/chat-bot-interfaces/src/main/resources/
