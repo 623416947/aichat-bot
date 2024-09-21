@@ -40,13 +40,14 @@ public class SpringBootRunTest {
         logger.info("测试结果:{}", JSON.toJSONString(unAnsweredQuestionsAggregates));
 
         List<Topics> topics = unAnsweredQuestionsAggregates.getResp_data().getTopics();
+        logger.info("topicsLength:{}", topics.size());
         for (Topics topic : topics) {
             String topicId = topic.getTopic_id();
             int commentsCount = topic.getComments_count();
+            Talk talk = topic.getTalk();
+            String text = talk.getText();
+            logger.info("topicId:{} text:{} commentsCount:{}", topicId, text, commentsCount);
             if (commentsCount == 0) {
-                Talk talk = topic.getTalk();
-                String text = talk.getText();
-                logger.info("topicId:{} text:{}", topicId, text);
                 zsxqApi.answer(groupId, cookie, topicId, text);
             }
         }
