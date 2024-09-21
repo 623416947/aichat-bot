@@ -2,6 +2,7 @@ package org.example.chatbot.api.test;
 
 
 import com.alibaba.fastjson.JSON;
+import org.example.chatbot.api.domain.ai.IOpenAi;
 import org.example.chatbot.api.domain.zsxq.IZsxqApi;
 import org.example.chatbot.api.domain.zsxq.model.aggregates.UnAnsweredQuestionsAggregates;
 import org.example.chatbot.api.domain.zsxq.model.vo.Talk;
@@ -34,6 +35,9 @@ public class SpringBootRunTest {
     @Resource
     private IZsxqApi zsxqApi;
 
+    @Resource
+    private IOpenAi openAi;
+
     @Test
     public void test_zsxqApi() throws IOException {
         UnAnsweredQuestionsAggregates unAnsweredQuestionsAggregates = zsxqApi.queryUnAnsweredQuestionsTopicId(groupId, cookie);
@@ -51,6 +55,12 @@ public class SpringBootRunTest {
                 zsxqApi.answer(groupId, cookie, topicId, text);
             }
         }
+    }
+
+    @Test
+    public void test_openAi() throws IOException {
+        String response = openAi.doChatGPT("帮我写个冒牌排序");
+        logger.info("测试结果:{}", response);
     }
 
 

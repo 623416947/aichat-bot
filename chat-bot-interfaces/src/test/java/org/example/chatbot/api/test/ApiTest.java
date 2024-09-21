@@ -25,7 +25,7 @@ public class ApiTest {
 
         HttpGet get = new HttpGet("https://api.zsxq.com/v2/groups/88888418481122/topics?scope=all&count=20");
 
-        get.addHeader("cookie", "zsxq_access_token=98FBD5B7-B780-5F7F-3814-C68246AEA132_5E7CBD24B8CCC15C; abtest_env=product; zsxqsessionid=3fad1c29ab706b2a4c71fc22dbbf5653; sajssdk_2015_cross_new_user=1; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22212554125442241%22%2C%22first_id%22%3A%221920fa98102648-0ca4a069a177538-26001151-2359296-1920fa981032bf9%22%2C%22props%22%3A%7B%7D%2C%22identities%22%3A%22eyIkaWRlbnRpdHlfY29va2llX2lkIjoiMTkyMGZhOTgxMDI2NDgtMGNhNGEwNjlhMTc3NTM4LTI2MDAxMTUxLTIzNTkyOTYtMTkyMGZhOTgxMDMyYmY5IiwiJGlkZW50aXR5X2xvZ2luX2lkIjoiMjEyNTU0MTI1NDQyMjQxIn0%3D%22%2C%22history_login_id%22%3A%7B%22name%22%3A%22%24identity_login_id%22%2C%22value%22%3A%22212554125442241%22%7D%7D");
+        get.addHeader("cookie", "cookie");
         get.addHeader("content-type", "application/json; charset=UTF-8\n");
 
         CloseableHttpResponse response = httpClient.execute(get);
@@ -43,7 +43,7 @@ public class ApiTest {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpPost post = new HttpPost("https://api.zsxq.com/v2/topics/4848544141855188/comments");
-        post.addHeader("cookie", "zsxq_access_token=98FBD5B7-B780-5F7F-3814-C68246AEA132_5E7CBD24B8CCC15C; abtest_env=product; zsxqsessionid=3fad1c29ab706b2a4c71fc22dbbf5653; sajssdk_2015_cross_new_user=1; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22212554125442241%22%2C%22first_id%22%3A%221920fa98102648-0ca4a069a177538-26001151-2359296-1920fa981032bf9%22%2C%22props%22%3A%7B%7D%2C%22identities%22%3A%22eyIkaWRlbnRpdHlfY29va2llX2lkIjoiMTkyMGZhOTgxMDI2NDgtMGNhNGEwNjlhMTc3NTM4LTI2MDAxMTUxLTIzNTkyOTYtMTkyMGZhOTgxMDMyYmY5IiwiJGlkZW50aXR5X2xvZ2luX2lkIjoiMjEyNTU0MTI1NDQyMjQxIn0%3D%22%2C%22history_login_id%22%3A%7B%22name%22%3A%22%24identity_login_id%22%2C%22value%22%3A%22212554125442241%22%7D%7D");
+        post.addHeader("cookie", "cookie");
         post.addHeader("content-type", "application/json; charset=UTF-8\n");
         String paramJson = "{\n" +
                 "  \"req_data\": {\n" +
@@ -52,7 +52,6 @@ public class ApiTest {
                 "    \"mentioned_user_ids\": []\n" +
                 "  }\n" +
                 "}";
-
 
 
         StringEntity stringEntry = new StringEntity(paramJson, ContentType.create("text/json", "UTF-8"));
@@ -66,5 +65,31 @@ public class ApiTest {
         } else {
             System.out.println(response.getStatusLine().getStatusCode());
         }
+    }
+
+    @Test
+    public void test_chatGPT() throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost post = new HttpPost("https://api.chatanywhere.tech/v1/chat/completions");
+        post.addHeader("Content-Type", "application/json");
+        post.addHeader("Authorization", "Bearer api");
+
+        String paramJson = "{\"model\": \"gpt-4o-mini\"," +
+                "\"messages\": [{\"role\": \"user\", \"content\": \"写一个冒泡排序!\"}]," +
+                "\"temperature\": 0.7}";
+
+        StringEntity stringEntry = new StringEntity(paramJson, ContentType.create("text/json", "UTF-8"));
+        post.setEntity(stringEntry);
+
+        CloseableHttpResponse response = httpClient.execute(post);
+
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            String res = EntityUtils.toString(response.getEntity());
+            System.out.println(res);
+        } else {
+            System.out.println(response.getStatusLine().getStatusCode());
+        }
+
     }
 }
