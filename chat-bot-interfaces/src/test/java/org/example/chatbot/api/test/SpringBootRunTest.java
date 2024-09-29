@@ -42,7 +42,6 @@ public class SpringBootRunTest {
     public void test_zsxqApi() throws IOException {
         UnAnsweredQuestionsAggregates unAnsweredQuestionsAggregates = zsxqApi.queryUnAnsweredQuestionsTopicId(groupId, cookie);
         logger.info("测试结果:{}", JSON.toJSONString(unAnsweredQuestionsAggregates));
-
         List<Topics> topics = unAnsweredQuestionsAggregates.getResp_data().getTopics();
         logger.info("topicsLength:{}", topics.size());
         for (Topics topic : topics) {
@@ -59,7 +58,7 @@ public class SpringBootRunTest {
 
     @Test
     public void test_openAi() throws IOException {
-        String response = openAi.doChatGPT("帮我写个冒牌排序");
+        String response = openAi.doChatGPT("帮我写个Java的快速排序");
         logger.info("测试结果:{}", response);
     }
 
